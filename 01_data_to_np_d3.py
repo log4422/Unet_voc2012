@@ -48,15 +48,22 @@ competition_name = 'VOC2012'
 
 
 # Festlegen von Pfaden
-img_dir = os.path.join(competition_name, "JPEGImages")
-mask_dir = os.path.join(competition_name, "SegmentationClass")
+img_dir = os.path.join(competition_name, "JPEGImages")					# Pfad der jpg Bilder
+mask_dir = os.path.join(competition_name, "SegmentationClass")				# Pfad der png Masken
 
-train_txt_dir = os.path.join(competition_name, "Segmentation/train.txt")
-val_txt_dir = os.path.join(competition_name, "Segmentation/val.txt")
+train_txt_dir = os.path.join(competition_name, "Segmentation/train.txt")		# Pfad der txt-Datei mit Trainingsnamen
+val_txt_dir = os.path.join(competition_name, "Segmentation/val.txt")			# Pfad der txt-Datei mit Validierungsnamen
 
 
-np_image_dir = os.path.join(competition_name, "np_Images")
-np_SegmentationClass_dir = os.path.join(competition_name, "np_SegmentationClass")
+np_image_dir = os.path.join(competition_name, "np_Images")				# Pfad für Speicherung aller Bilder im Ordner np_Images
+np_SegmentationClass_dir = os.path.join(competition_name, "np_SegmentationClass")	# Pfad für Speicherung aller Masken im Ordner np_SegmentationClass
+
+
+np_train_pic_dir = os.path.join(competition_name, "np_train_Images")			# Pfad für Speicherung Trainingsbilder
+np_train_mask_dir = os.path.join("np_train_SegmentationClass")				# Pfad für Speicherung Trainingsmasken
+np_val_pic_dir = os.path.join("np_val_Images")						# Pfad für Speicherung Validierunsbilder
+np_val_mask_dir = os.path.join(competition_name, "np_val_SegmentationClass")		# Pfad für Speicherung Validierungsmasken
+
 
 
 #trainval_txt_dir = os.path.join(competition_name, "Segmentation/trainval.txt")
@@ -77,26 +84,31 @@ f_train.close()
 
 train_txt = []
 train_mask_txt = []
-store_train_pic_txt = []
-store_train_mask_txt = []
+store_train_pic_txt = []		# Bei Verwendung Speicherung von Trainingsbildern in np_Images
+store_train_mask_txt = []		# Bei Verwendung Speicherung von Trainingsmasken  in np_SegmentationClass
+store_train_pic_dir_txt = []		# Bei Verwendung Speicherung von Trainingsbildern in np_train_Images
+store_train_mask_dir_txt = []		# Bei Verwendung Speicherung von Trainingsmasken  in np_train_SegmentationClass
 
 for img_idt in train_txt2:
   train_txt.append(os.path.join(img_dir, "{}.jpg".format(img_idt[:11]))) 
   train_mask_txt.append(os.path.join(mask_dir, "{}.png".format(img_idt[:11])))
   store_train_pic_txt.append(os.path.join(np_image_dir, '{}.npy'.format(img_idt[:11])))
   store_train_mask_txt.append(os.path.join(np_SegmentationClass_dir, '{}.npy'.format(img_idt[:11])))
-
+  store_train_pic_dir_txt.append(os.path.join(np_train_pic_dir, '{}.npy'.format(img_idt[:11])))
+  store_train_mask_dir_txt.append(os.path.join(np_train_mask_dir, '{}.npy'.format(img_idt[:11])))
+  
 #print('\nstore_mask_txt:', store_train_mask_txt)
-print('\n')
+#print('\n')
 
 # Ausgabe Anzahl und Format Trainingsbilder
 num_train_examples = len(train_txt)
 print("\nAnzahl an Trainingsbildern: {}" .format(num_train_examples))
 print("Format eines Trainingsbildes: {}" .format(train_txt[0]))
-print("Anzahl an Trainingsmasken: {}".format(len(train_mask_txt)))
+print("\nAnzahl an Trainingsmasken: {}".format(len(train_mask_txt)))
 print("Format einer Trainingsmaske: {}".format(train_mask_txt[0]))
-print("Anzahl an Traininsmasken als np.array: {}".format(len(store_train_mask_txt)))
-print("Format einer Trainingsmaske als np.array: {}".format(store_train_mask_txt[0]))
+print("\nAnzahl an Traininsmasken als np.array: {}".format(len(store_train_mask_txt)))
+print("Format einer Traininsmaske als np.array: {}".format(store_train_mask_dir_txt[0]))
+#print("Format einer Trainingsmaske als np.array: {}".format(store_train_mask_txt[0]))
 
 
 # Einlesen der Validierungsbildernamen und Validierungsmaskennamen
@@ -106,24 +118,31 @@ f_val.close()
 
 val_txt = []
 val_mask_txt = []
-store_val_pic_txt = []
-store_val_mask_txt = []
+store_val_pic_txt = []			# Bei Verwendung Speicherung von Bildern in np_Images
+store_val_mask_txt = []			# Bei Verwendung Speicherung von Bildern in np_SegmentationClass
+store_val_pic_dir_txt = []		# Bei Verwendung Speicherung von Validierungsbildern in np_val_Images
+store_val_mask_dir_txt = []		# Bei Verwendung Speicherung von Validierungsmasken np_val_SegmentationClass
+
 
 for img_idt in val_txt2:
   val_txt.append(os.path.join(img_dir, "{}.jpg".format(img_idt[:11]))) 
   val_mask_txt.append(os.path.join(mask_dir, "{}.png".format(img_idt[:11])))
   store_val_pic_txt.append(os.path.join(np_image_dir, "{}.npy".format(img_idt[:11])))
   store_val_mask_txt.append(os.path.join(np_SegmentationClass_dir, '{}.npy'.format(img_idt[:11])))
+  store_val_pic_dir_txt.append(os.path.join(np_val_pic_dir, '{}.npy'.format(img_idt[:11])))
+  store_val_mask_dir_txt.append(os.path.join(np_val_mask_dir, '{}.npy'.format(img_idt[:11])))
+
+  
 
 # Ausgabe Anzahl und Format Trainingsbilder
 num_val_examples = len(val_txt)
 print("\nAnzahl an Validierungsbildern: {}" .format(num_val_examples))
 print("Format eines Validierungsbildes: {}" .format(val_txt[0]))
-print("Anzahl an Validierungsmasken: {}".format(len(val_mask_txt)))
+print("\nAnzahl an Validierungsmasken: {}".format(len(val_mask_txt)))
 print("Format einer Validierungsmaske: {}".format(val_mask_txt[0]))
-print("Anzahl an Validierungsmasken als np.array: {}".format(len(store_val_mask_txt)))
-print("Format einer Validierungsmaske als np.array: {}".format(store_val_mask_txt[0]))
-
+print("\nAnzahl an Validierungsmasken als np.array: {}".format(len(store_val_mask_txt)))
+print("Format einer Validierungsmaske als np.array: {}".format(store_val_mask_dir_txt[0]))
+#print("Format einer Validierungsmaske als np.array: {}".format(store_val_mask_txt[0]))
 # Festlegen der späteren Dimensionen des np.arrays------------------------------------------------------------------------------
 img_size = (256,256,3)
 
@@ -186,6 +205,7 @@ def read_jpg_to_np_array(jpg_list, store_dir, img_size):
     imr = im.resize(img_size[:2], Image.NEAREST)# Resizen des Bildes
     
     np_jpg_array = np.array(imr)		# Umwandeln in ein np.array
+    np_jpg_array = np_jpg_array/255.
     np.save(store_dir[j], np_jpg_array)		# Speichern des np.arrays mit mit Ordner/Name.npy nach store_dir[i]
     j=j+1
 
@@ -197,20 +217,29 @@ def read_jpg_to_np_array(jpg_list, store_dir, img_size):
 
   return None
 
-'''
-# Aufrufen der Umwandungsfunktionen mit Masken und Bildern (jeweils Train und Val)---------------------------------------------------
-read_png_to_np_array(val_mask_txt , store_val_mask_txt ,img_size)
-read_jpg_to_np_array(val_txt, store_val_pic_txt, img_size)
-read_png_to_np_array(train_mask_txt , store_train_mask_txt ,img_size, encode=True)
-read_jpg_to_np_array(train_txt, store_train_pic_txt, img_size)
 
+# Aufrufen der Umwandungsfunktionen mit Masken und Bildern (jeweils Train und Val)---------------------------------------------------
+
+
+# Für Speicherung aller Bilder in np_Images und aller Masken in np_SegmentationClass
+#read_png_to_np_array(val_mask_txt , store_val_mask_txt ,img_size, encode=True)
+#read_jpg_to_np_array(val_txt, store_val_pic_txt, img_size)
+#read_png_to_np_array(train_mask_txt , store_train_mask_txt ,img_size, encode=True)
+#read_jpg_to_np_array(train_txt, store_train_pic_txt, img_size)
+
+
+# Für Speicherung von Traingsbilder in np_train_Images, Trainingsmasken in in_train_SegmentationClass
+# und Validierungsbiler in np_val_Images, Validierungsmasken in np_val_Images
+read_png_to_np_array(val_mask_txt , store_val_mask_dir_txt ,img_size, encode=True)		# Umwandlung Validierungsmasken
+read_jpg_to_np_array(val_txt, store_val_pic_dir_txt, img_size)					# Umwandlung Validierungsbilder
+read_png_to_np_array(train_mask_txt , store_train_mask_dir_txt ,img_size, encode=True)		# Umwandlung Trainingsmasken
+read_jpg_to_np_array(train_txt, store_train_pic_dir_txt, img_size)				# umwandlung Trainingsbilder
 
 
 print("\nUmwandeln aller Bilder und Masken (jeweils Trian und Val) erfolgreich!")
 
-'''
 
-
+print("\nstore_dir", store_train_mask_txt[0])
 
 
 
@@ -230,22 +259,22 @@ def encoded_to_np_rgb(onehot, colormap = color_dict):
     return np.uint8(output)
 
 
-encoded_np_array = np.load(store_train_mask_txt[275])	# Laden einer Trainingsmaske
-decoded_np_array = encoded_to_np_rgb(encoded_np_array)	# Decoden der Trainingsmaske
+encoded_np_array = np.load(store_train_mask_dir_txt[275])	# Laden einer Trainingsmaske
+decoded_np_array = encoded_to_np_rgb(encoded_np_array)		# Decoden der Trainingsmaske
 
 
-plt.imshow(decoded_np_array)				# Ausgeben der Trainismaske
+plt.imshow(decoded_np_array)					# Ausgeben der Trainismaske
 plt.show()
 
 
 # Laden und ausgeben eines np.arrays (nicht encoded)----------------------------------------------------------------------------------
 
-np_array = np.load(store_train_pic_txt[275])		# Laden eines Traingsbilds
+np_array = np.load(store_train_pic_txt[275])			# Laden eines Traingsbilds
 
+#print("\nnp_array", np_array[0:100])
 
-plt.imshow(np_array)					# Ausgeben des Trainingsilds
+plt.imshow(np_array)						# Ausgeben des Trainingsilds
 plt.show()
-
 
 
 
