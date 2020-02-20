@@ -144,7 +144,7 @@ print("Anzahl an Validierungsmasken als np.array: {}".format(len(store_val_mask_
 print("Format einer Validierungsmaske als np.array: {}".format(store_val_mask_dir_txt[0]))
 #print("Format einer Validierungsmaske als np.array: {}".format(store_val_mask_txt[0]))
 # Festlegen der späteren Dimensionen des np.arrays------------------------------------------------------------------------------
-img_size = (256,256,3)
+img_size = (192,192,3)
 
 #-------------------------------------------------------------------------------------------------------------------------------
 
@@ -228,7 +228,7 @@ def read_jpg_to_np_array(jpg_list, store_dir, img_size):
 #read_jpg_to_np_array(train_txt, store_train_pic_txt, img_size)
 
 
-# Für Speicherung von Traingsbilder in np_train_Images, Trainingsmasken in in_train_SegmentationClass
+# Für Speicherung von Traingsbilder in np_train_Images, Trainingsmasken in np_train_SegmentationClass
 # und Validierungsbiler in np_val_Images, Validierungsmasken in np_val_Images
 read_png_to_np_array(val_mask_txt , store_val_mask_dir_txt ,img_size, encode=True)		# Umwandlung Validierungsmasken
 read_jpg_to_np_array(val_txt, store_val_pic_dir_txt, img_size)					# Umwandlung Validierungsbilder
